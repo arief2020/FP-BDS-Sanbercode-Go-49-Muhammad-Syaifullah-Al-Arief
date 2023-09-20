@@ -15,10 +15,8 @@ func ConnectDatabase() *gorm.DB {
     host := utils.Getenv("DATABASE_HOST", "containers-us-west-208.railway.app")
     port := utils.Getenv("DATABASE_PORT", "5839")
     database := utils.Getenv("DATABASE_NAME", "railway")
-    // mysql://root:cPdgaPiX1XFg80YEaG39@containers-us-west-208.railway.app:5839/railway
 
     dsn := fmt.Sprintf("%v:%v@tcp(%v:%v)/%v?charset=utf8mb4&parseTime=True&loc=Local", username, password, host, port, database)
-    // dsn := "mysql://root:cPdgaPiX1XFg80YEaG39@containers-us-west-208.railway.app:5839/railway"
     db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 
     if err != nil {
