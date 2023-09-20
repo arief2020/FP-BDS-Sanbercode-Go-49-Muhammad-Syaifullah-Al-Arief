@@ -2,6 +2,7 @@ package main
 
 import (
 	"belajarGin/config"
+	"belajarGin/docs"
 	"belajarGin/routes"
 	"belajarGin/utils"
 	"log"
