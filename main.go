@@ -2,10 +2,10 @@ package main
 
 import (
 	"belajarGin/config"
-	"belajarGin/docs"
 	"belajarGin/routes"
 	"belajarGin/utils"
 	"log"
+
 	"github.com/joho/godotenv"
 )
 
@@ -42,5 +42,5 @@ func main() {
 
     // router
     r := routes.SetupRouter(db)
-    r.Run("localhost:8080")
+    r.Run()
 }
