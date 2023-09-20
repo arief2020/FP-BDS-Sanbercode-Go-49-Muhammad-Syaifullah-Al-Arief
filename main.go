@@ -36,7 +36,7 @@ func main() {
     docs.SwaggerInfo.Version = "1.0"
 
     // database connection
-    db := config.ConnectDatabase()
+    db := config.ConnectDataBase()
     sqlDB, _ := db.DB()
     defer sqlDB.Close()
 
