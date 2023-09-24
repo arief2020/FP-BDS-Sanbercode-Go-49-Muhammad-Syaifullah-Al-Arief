@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 24, 2023 at 05:49 AM
+-- Generation Time: Sep 24, 2023 at 04:57 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -84,7 +84,8 @@ CREATE TABLE `order_items` (
 --
 
 INSERT INTO `order_items` (`id`, `quantity`, `sub_total`, `order_id`, `product_id`, `created_at`, `updated_at`) VALUES
-(1, 2, 40000, 1, 1, '2023-09-24 09:49:45.372', '2023-09-24 09:49:45.372');
+(1, 2, 40000, 1, 1, '2023-09-24 09:49:45.372', '2023-09-24 09:49:45.372'),
+(2, 4, 30000, 1, 1, '2023-09-24 20:20:01.404', '2023-09-24 20:20:01.404');
 
 -- --------------------------------------------------------
 
@@ -225,7 +226,7 @@ ALTER TABLE `orders`
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `products`
