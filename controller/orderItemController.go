@@ -17,9 +17,11 @@ type OrderItemInput struct {
 }
 
 // GetAllOrderItem godoc
-// @Summary Get all Order Product.
+// @Summary Get all Order Product (must login).
 // @Description Get a list of Order Product.
 // @Tags OrderItem
+// @Param Authorization header string true "Authorization. How to input in swagger : 'Bearer <insert_your_token_here>'"
+// @Security BearerToken
 // @Produce json
 // @Success 200 {object} []models.OrderItem
 // @Router /order-item [get]
@@ -33,7 +35,7 @@ func GetAllOrderItem(c *gin.Context){
 }
 
 // CreateOrderItem godoc
-// @Summary Create New Order Product.
+// @Summary Create New Order Product (must login).
 // @Description Creating a new Order Product.
 // @Tags OrderItem
 // @Param Body body OrderItemInput true "the body to create a new Order"
@@ -60,9 +62,11 @@ func CreateOrderItem(c *gin.Context){
 }
 
 // GetOrderItemById godoc
-// @Summary Get Order Product.
+// @Summary Get Order Product. (must login)
 // @Description Get an Order Product by id.
 // @Tags OrderItem
+// @Param Authorization header string true "Authorization. How to input in swagger : 'Bearer <insert_your_token_here>'"
+// @Security BearerToken
 // @Produce json
 // @Param id path string true "OrderItem id"
 // @Success 200 {object} models.OrderItem
@@ -79,9 +83,33 @@ func GetOrderItemById(c *gin.Context) { // Get model if exist
     c.JSON(http.StatusOK, gin.H{"data": orderProduct})
 }
 
+// GetOrderItemByOrderId godoc
+// @Summary Get OrderItem. (must login)
+// @Description Get all OrderItem by OrderId.
+// @Tags OrderItem
+// @Param Authorization header string true "Authorization. How to input in swagger : 'Bearer <insert_your_token_here>'"
+// @Security BearerToken
+// @Produce json
+// @Param id path string true "Order id"
+// @Success 200 {object} []models.OrderItem
+// @Router /order/{id}/order-item [get]
+func GetOrderItemByOrderId(c *gin.Context) { // Get model if exist
+    var orderItem []models.OrderItem
+
+    db := c.MustGet("db").(*gorm.DB)
+
+    if err := db.Where("order_id = ?", c.Param("id")).Find(&orderItem).Error; err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
+        return
+    }
+
+    c.JSON(http.StatusOK, gin.H{"data": orderItem})
+}
+
+
 
 // UpdateOrderItem godoc
-// @Summary Update Order Product.
+// @Summary Update Order Product. (must login)
 // @Description Update Order Product.
 // @Tags OrderItem
 // @Param Authorization header string true "Authorization. How to input in swagger : 'Bearer <insert_your_token_here>'"
@@ -121,7 +149,7 @@ func UpdateOrderItem(c *gin.Context) {
 }
 
 // DeleteOrderItem godoc
-// @Summary Delete one Order Product.
+// @Summary Delete one Order Product. (must login)
 // @Description Delete a OrderItem by id.
 // @Tags OrderItem
 // @Param Authorization header string true "Authorization. How to input in swagger : 'Bearer <insert_your_token_here>'"

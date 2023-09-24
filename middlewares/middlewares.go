@@ -21,7 +21,7 @@ func JwtAuthMiddleware() gin.HandlerFunc {
 }
 func JwtAdminMiddleware() gin.HandlerFunc {
     return func(c *gin.Context) {
-        value, err := token.TokenAdmin(c)
+        value, err := token.TokenRole(c)
         fmt.Println(value)
         if err != nil {
             c.String(http.StatusUnauthorized, err.Error())
@@ -30,6 +30,23 @@ func JwtAdminMiddleware() gin.HandlerFunc {
         }
         if value != "admin" {
             c.String(http.StatusUnauthorized, "hanya admin yang boleh !!!")
+            c.Abort()
+            return
+        }
+        c.Next()
+    }
+}
+func JwtCustomerMiddleware() gin.HandlerFunc {
+    return func(c *gin.Context) {
+        value, err := token.TokenRole(c)
+        fmt.Println(value)
+        if err != nil {
+            c.String(http.StatusUnauthorized, err.Error())
+            c.Abort()
+            return
+        }
+        if value != "customer" {
+            c.String(http.StatusUnauthorized, "hanya customer yang boleh !!!")
             c.Abort()
             return
         }

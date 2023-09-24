@@ -3,6 +3,7 @@ package controller
 import (
 	"final-project/models"
 	"net/http"
+	"strconv"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -16,12 +17,37 @@ type productInput struct {
 	Stock       uint   `json:"stock"`
 	CategoryID  uint   `json:"category_id"`
 }
-
+func filterMinPrice(data []models.Product, minPrice string) ([]models.Product){
+	var newResult []models.Product
+	intMP, _ := strconv.Atoi(minPrice)
+	for i, val := range data {
+		harga := val.Price
+		if harga >= uint(intMP) {
+			newResult = append(newResult, data[i])
+		}
+		
+	}
+	return newResult
+}
+func filterMaxPrice(data []models.Product, maxPrice string) ([]models.Product){
+	var newResult []models.Product
+	intMP, _ := strconv.Atoi(maxPrice)
+	for i, val := range data {
+		harga := val.Price
+		if harga <= uint(intMP) {
+			newResult = append(newResult, data[i])
+		}
+		
+	}
+	return newResult
+}
 // GetAllProduct godoc
 // @Summary Get all product.
 // @Description Get a list of Product.
 // @Tags Product
 // @Produce json
+// @Param minPrice query string false "Minimum Price (optional)"
+// @Param maxPrice query string false "Maximum Price (optional)"
 // @Success 200 {object} []models.Product
 // @Router /product [get]
 func GetAllProduct(c *gin.Context) {
@@ -29,12 +55,20 @@ func GetAllProduct(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 	var products []models.Product
 	db.Find(&products)
+    minPrice := c.Query("minPrice")
+    maxPrice := c.Query("maxPrice")
+    if minPrice != "" {
+        products = filterMinPrice(products, minPrice)
+    }
+    if maxPrice != "" {
+        products = filterMaxPrice(products, maxPrice)
+    }
 
 	c.JSON(http.StatusOK, gin.H{"data": products})
 }
 
 // CreateProduct godoc
-// @Summary Create New Product.
+// @Summary Create New Product. (admin only)
 // @Description Creating a new Product.
 // @Tags Product
 // @Param Body body productInput true "the body to create a new product"
@@ -67,9 +101,11 @@ func CreateProduct(c *gin.Context) {
 }
 
 // GetProductById godoc
-// @Summary Get Product.
+// @Summary Get Product. (must login)
 // @Description Get a Product by id.
 // @Tags Product
+// @Param Authorization header string true "Authorization. How to input in swagger : 'Bearer <insert_your_token_here>'"
+// @Security BearerToken
 // @Produce json
 // @Param id path string true "product id"
 // @Success 200 {object} models.Product
@@ -87,7 +123,7 @@ func GetProductById(c *gin.Context) { // Get model if exist
 }
 
 // UpdateProduct godoc
-// @Summary Update Product.
+// @Summary Update Product. (admin only)
 // @Description Update product by id.
 // @Tags Product
 // @Param Authorization header string true "Authorization. How to input in swagger : 'Bearer <insert_your_token_here>'"
@@ -134,7 +170,7 @@ func UpdateProduct(c *gin.Context) {
 }
 
 // DeleteProduct godoc
-// @Summary Delete one product.
+// @Summary Delete one product. (admin only)
 // @Description Delete a product by id.
 // @Tags Product
 // @Param Authorization header string true "Authorization. How to input in swagger : 'Bearer <insert_your_token_here>'"

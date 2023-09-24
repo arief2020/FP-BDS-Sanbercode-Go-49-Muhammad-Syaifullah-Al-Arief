@@ -59,7 +59,7 @@ const docTemplate = `{
                 "tags": [
                     "Category"
                 ],
-                "summary": "Create New Category.",
+                "summary": "Create New Category. (admin only)",
                 "parameters": [
                     {
                         "description": "the body to create a new Category",
@@ -129,7 +129,7 @@ const docTemplate = `{
                 "tags": [
                     "Category"
                 ],
-                "summary": "Delete one Category.",
+                "summary": "Delete one Category. (admin only)",
                 "parameters": [
                     {
                         "type": "string",
@@ -171,7 +171,7 @@ const docTemplate = `{
                 "tags": [
                     "Category"
                 ],
-                "summary": "Update Category.",
+                "summary": "Update Category. (admin only)",
                 "parameters": [
                     {
                         "type": "string",
@@ -273,6 +273,11 @@ const docTemplate = `{
         },
         "/order": {
             "get": {
+                "security": [
+                    {
+                        "BearerToken": []
+                    }
+                ],
                 "description": "Get a list of Order User.",
                 "produces": [
                     "application/json"
@@ -280,7 +285,16 @@ const docTemplate = `{
                 "tags": [
                     "Order"
                 ],
-                "summary": "Get all Order.",
+                "summary": "Get all Order.(admin only)",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authorization. How to input in swagger : 'Bearer \u003cinsert_your_token_here\u003e'",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -306,7 +320,7 @@ const docTemplate = `{
                 "tags": [
                     "Order"
                 ],
-                "summary": "Create New Order.",
+                "summary": "Create New Order. (must login)",
                 "parameters": [
                     {
                         "description": "the body to create a new Order",
@@ -337,6 +351,11 @@ const docTemplate = `{
         },
         "/order-item": {
             "get": {
+                "security": [
+                    {
+                        "BearerToken": []
+                    }
+                ],
                 "description": "Get a list of Order Product.",
                 "produces": [
                     "application/json"
@@ -344,7 +363,16 @@ const docTemplate = `{
                 "tags": [
                     "OrderItem"
                 ],
-                "summary": "Get all Order Product.",
+                "summary": "Get all Order Product (must login).",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authorization. How to input in swagger : 'Bearer \u003cinsert_your_token_here\u003e'",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -370,7 +398,7 @@ const docTemplate = `{
                 "tags": [
                     "OrderItem"
                 ],
-                "summary": "Create New Order Product.",
+                "summary": "Create New Order Product (must login).",
                 "parameters": [
                     {
                         "description": "the body to create a new Order",
@@ -401,6 +429,11 @@ const docTemplate = `{
         },
         "/order-item/{id}": {
             "get": {
+                "security": [
+                    {
+                        "BearerToken": []
+                    }
+                ],
                 "description": "Get an Order Product by id.",
                 "produces": [
                     "application/json"
@@ -408,8 +441,15 @@ const docTemplate = `{
                 "tags": [
                     "OrderItem"
                 ],
-                "summary": "Get Order Product.",
+                "summary": "Get Order Product. (must login)",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authorization. How to input in swagger : 'Bearer \u003cinsert_your_token_here\u003e'",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
                     {
                         "type": "string",
                         "description": "OrderItem id",
@@ -440,7 +480,7 @@ const docTemplate = `{
                 "tags": [
                     "OrderItem"
                 ],
-                "summary": "Delete one Order Product.",
+                "summary": "Delete one Order Product. (must login)",
                 "parameters": [
                     {
                         "type": "string",
@@ -482,7 +522,7 @@ const docTemplate = `{
                 "tags": [
                     "OrderItem"
                 ],
-                "summary": "Update Order Product.",
+                "summary": "Update Order Product. (must login)",
                 "parameters": [
                     {
                         "type": "string",
@@ -520,6 +560,11 @@ const docTemplate = `{
         },
         "/order/{id}": {
             "get": {
+                "security": [
+                    {
+                        "BearerToken": []
+                    }
+                ],
                 "description": "Get an Order by id.",
                 "produces": [
                     "application/json"
@@ -527,8 +572,15 @@ const docTemplate = `{
                 "tags": [
                     "Order"
                 ],
-                "summary": "Get Order.",
+                "summary": "Get Order. (must login)",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authorization. How to input in swagger : 'Bearer \u003cinsert_your_token_here\u003e'",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
                     {
                         "type": "string",
                         "description": "Order id",
@@ -559,7 +611,7 @@ const docTemplate = `{
                 "tags": [
                     "Order"
                 ],
-                "summary": "Delete one Order.",
+                "summary": "Delete one Order.(admin only)",
                 "parameters": [
                     {
                         "type": "string",
@@ -601,7 +653,7 @@ const docTemplate = `{
                 "tags": [
                     "Order"
                 ],
-                "summary": "Update Order.",
+                "summary": "Update Order. (admin only)",
                 "parameters": [
                     {
                         "type": "string",
@@ -637,6 +689,50 @@ const docTemplate = `{
                 }
             }
         },
+        "/order/{id}/order-item": {
+            "get": {
+                "security": [
+                    {
+                        "BearerToken": []
+                    }
+                ],
+                "description": "Get all OrderItem by OrderId.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "OrderItem"
+                ],
+                "summary": "Get OrderItem. (must login)",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authorization. How to input in swagger : 'Bearer \u003cinsert_your_token_here\u003e'",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Order id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.OrderItem"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/product": {
             "get": {
                 "description": "Get a list of Product.",
@@ -647,6 +743,20 @@ const docTemplate = `{
                     "Product"
                 ],
                 "summary": "Get all product.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Minimum Price (optional)",
+                        "name": "minPrice",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Maximum Price (optional)",
+                        "name": "maxPrice",
+                        "in": "query"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -672,7 +782,7 @@ const docTemplate = `{
                 "tags": [
                     "Product"
                 ],
-                "summary": "Create New Product.",
+                "summary": "Create New Product. (admin only)",
                 "parameters": [
                     {
                         "description": "the body to create a new product",
@@ -703,6 +813,11 @@ const docTemplate = `{
         },
         "/product/{id}": {
             "get": {
+                "security": [
+                    {
+                        "BearerToken": []
+                    }
+                ],
                 "description": "Get a Product by id.",
                 "produces": [
                     "application/json"
@@ -710,8 +825,15 @@ const docTemplate = `{
                 "tags": [
                     "Product"
                 ],
-                "summary": "Get Product.",
+                "summary": "Get Product. (must login)",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authorization. How to input in swagger : 'Bearer \u003cinsert_your_token_here\u003e'",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
                     {
                         "type": "string",
                         "description": "product id",
@@ -742,7 +864,7 @@ const docTemplate = `{
                 "tags": [
                     "Product"
                 ],
-                "summary": "Delete one product.",
+                "summary": "Delete one product. (admin only)",
                 "parameters": [
                     {
                         "type": "string",
@@ -784,7 +906,7 @@ const docTemplate = `{
                 "tags": [
                     "Product"
                 ],
-                "summary": "Update Product.",
+                "summary": "Update Product. (admin only)",
                 "parameters": [
                     {
                         "type": "string",
@@ -815,6 +937,38 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/models.Product"
+                        }
+                    }
+                }
+            }
+        },
+        "/product/{id}/review": {
+            "get": {
+                "description": "Get all Review by ProductId.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Review"
+                ],
+                "summary": "Get Review. (must login)",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Product id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.ReviewProduct"
+                            }
                         }
                     }
                 }
@@ -854,6 +1008,11 @@ const docTemplate = `{
         },
         "/review": {
             "get": {
+                "security": [
+                    {
+                        "BearerToken": []
+                    }
+                ],
                 "description": "Get a list of Review.",
                 "produces": [
                     "application/json"
@@ -861,7 +1020,16 @@ const docTemplate = `{
                 "tags": [
                     "Review"
                 ],
-                "summary": "Get all Review.",
+                "summary": "Get all Review. (must login)",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authorization. How to input in swagger : 'Bearer \u003cinsert_your_token_here\u003e'",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -880,7 +1048,7 @@ const docTemplate = `{
                         "BearerToken": []
                     }
                 ],
-                "description": "Creating a new Review.",
+                "description": "Creating a new Review. (must login)",
                 "produces": [
                     "application/json"
                 ],
@@ -957,7 +1125,7 @@ const docTemplate = `{
                 "tags": [
                     "Review"
                 ],
-                "summary": "Delete one Order Product.",
+                "summary": "Delete one Order Product. (must login)",
                 "parameters": [
                     {
                         "type": "string",
@@ -999,7 +1167,7 @@ const docTemplate = `{
                 "tags": [
                     "Review"
                 ],
-                "summary": "Update Review.",
+                "summary": "Update Review. (must login)",
                 "parameters": [
                     {
                         "type": "string",
@@ -1030,6 +1198,50 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/models.ReviewProduct"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/{id}/order": {
+            "get": {
+                "security": [
+                    {
+                        "BearerToken": []
+                    }
+                ],
+                "description": "Get all Order by UserID.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Order"
+                ],
+                "summary": "Get Order. (must login)",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authorization. How to input in swagger : 'Bearer \u003cinsert_your_token_here\u003e'",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "User id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Order"
+                            }
                         }
                     }
                 }

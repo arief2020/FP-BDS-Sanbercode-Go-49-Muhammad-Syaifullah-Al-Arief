@@ -80,7 +80,7 @@ func ExtractTokenID(c *gin.Context) (uint, error) {
     }
     return 0, nil
 }
-func TokenAdmin(c *gin.Context) (string, error) {
+func TokenRole(c *gin.Context) (string, error) {
 
     tokenString := ExtractToken(c)
     token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {

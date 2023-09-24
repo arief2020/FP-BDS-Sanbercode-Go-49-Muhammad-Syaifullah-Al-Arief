@@ -30,7 +30,7 @@ func GetAllCategory(c *gin.Context){
 }
 
 // CreateCategory godoc
-// @Summary Create New Category.
+// @Summary Create New Category. (admin only)
 // @Description Creating a new category of product.
 // @Tags Category
 // @Param Body body CategoryInput true "the body to create a new Category"
@@ -98,7 +98,7 @@ func GetProductByCategoryId(c *gin.Context) { // Get model if exist
 
 
 // UpdateCategory godoc
-// @Summary Update Category.
+// @Summary Update Category. (admin only)
 // @Description Update Category by id.
 // @Tags Category
 // @Param Authorization header string true "Authorization. How to input in swagger : 'Bearer <insert_your_token_here>'"
@@ -135,7 +135,7 @@ func UpdateCategory(c *gin.Context) {
 }
 
 // DeleteCategory godoc
-// @Summary Delete one Category.
+// @Summary Delete one Category. (admin only)
 // @Description Delete a Category by id.
 // @Tags Category
 // @Param Authorization header string true "Authorization. How to input in swagger : 'Bearer <insert_your_token_here>'"

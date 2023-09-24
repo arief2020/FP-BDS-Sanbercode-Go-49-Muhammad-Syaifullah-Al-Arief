@@ -16,9 +16,11 @@ type OrderInput struct {
 }
 
 // GetAllOrder godoc
-// @Summary Get all Order.
+// @Summary Get all Order.(admin only)
 // @Description Get a list of Order User.
 // @Tags Order
+// @Param Authorization header string true "Authorization. How to input in swagger : 'Bearer <insert_your_token_here>'"
+// @Security BearerToken
 // @Produce json
 // @Success 200 {object} []models.Order
 // @Router /order [get]
@@ -32,7 +34,7 @@ func GetAllOrder(c *gin.Context){
 }
 
 // CreateOrder godoc
-// @Summary Create New Order.
+// @Summary Create New Order. (must login)
 // @Description Creating a new Order User.
 // @Tags Order
 // @Param Body body OrderInput true "the body to create a new Order"
@@ -60,9 +62,11 @@ func CreateOrder(c *gin.Context){
 
 
 // GetOrderById godoc
-// @Summary Get Order.
+// @Summary Get Order. (must login)
 // @Description Get an Order by id.
 // @Tags Order
+// @Param Authorization header string true "Authorization. How to input in swagger : 'Bearer <insert_your_token_here>'"
+// @Security BearerToken
 // @Produce json
 // @Param id path string true "Order id"
 // @Success 200 {object} models.Order
@@ -79,8 +83,31 @@ func GetOrderByID(c *gin.Context) { // Get model if exist
     c.JSON(http.StatusOK, gin.H{"data": order})
 }
 
+// GetOrderByUserId godoc
+// @Summary Get Order. (must login)
+// @Description Get all Order by UserID.
+// @Tags Order
+// @Param Authorization header string true "Authorization. How to input in swagger : 'Bearer <insert_your_token_here>'"
+// @Security BearerToken
+// @Produce json
+// @Param id path string true "User id"
+// @Success 200 {object} []models.Order
+// @Router /user/{id}/order [get]
+func GetOrderByUserId(c *gin.Context) { // Get model if exist
+    var order []models.Order
+
+    db := c.MustGet("db").(*gorm.DB)
+
+    if err := db.Where("user_id = ?", c.Param("id")).Find(&order).Error; err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
+        return
+    }
+
+    c.JSON(http.StatusOK, gin.H{"data": order})
+}
+
 // UpdateOrder godoc
-// @Summary Update Order.
+// @Summary Update Order. (admin only)
 // @Description Update Order user.
 // @Tags Order
 // @Param Authorization header string true "Authorization. How to input in swagger : 'Bearer <insert_your_token_here>'"
@@ -118,7 +145,7 @@ func UpdateOrder(c *gin.Context) {
 }
 
 // DeleteOrder godoc
-// @Summary Delete one Order.
+// @Summary Delete one Order.(admin only)
 // @Description Delete a Order by id.
 // @Tags Order
 // @Param Authorization header string true "Authorization. How to input in swagger : 'Bearer <insert_your_token_here>'"

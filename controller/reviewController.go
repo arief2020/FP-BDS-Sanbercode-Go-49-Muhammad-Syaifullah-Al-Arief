@@ -17,9 +17,11 @@ type ReviewInput struct {
 }
 
 // GetAllReview godoc
-// @Summary Get all Review.
+// @Summary Get all Review. (must login)
 // @Description Get a list of Review.
 // @Tags Review
+// @Param Authorization header string true "Authorization. How to input in swagger : 'Bearer <insert_your_token_here>'"
+// @Security BearerToken
 // @Produce json
 // @Success 200 {object} []models.ReviewProduct
 // @Router /review [get]
@@ -34,7 +36,7 @@ func GetAllReview(c *gin.Context) {
 
 // CreateReview godoc
 // @Summary Create New Review.
-// @Description Creating a new Review.
+// @Description Creating a new Review. (must login)
 // @Tags Review
 // @Param Body body ReviewInput true "the body to create a new Review"
 // @Param Authorization header string true "Authorization. How to input in swagger : 'Bearer <insert_your_token_here>'"
@@ -80,9 +82,31 @@ func GetReviewById(c *gin.Context) { // Get model if exist
     c.JSON(http.StatusOK, gin.H{"data": review})
 }
 
+
+// GetReviewByProductId godoc
+// @Summary Get Review. (must login)
+// @Description Get all Review by ProductId.
+// @Tags Review
+// @Produce json
+// @Param id path string true "Product id"
+// @Success 200 {object} []models.ReviewProduct
+// @Router /product/{id}/review [get]
+func GetReviewByProductId(c *gin.Context) { // Get model if exist
+    var review []models.ReviewProduct
+
+    db := c.MustGet("db").(*gorm.DB)
+
+    if err := db.Where("product_id = ?", c.Param("id")).Find(&review).Error; err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
+        return
+    }
+
+    c.JSON(http.StatusOK, gin.H{"data": review})
+}
+
 // UpdateReview godoc
-// @Summary Update Review.
-// @Description Update Review.
+// @Summary Update Review. (must login)
+// @Description Update Review. 
 // @Tags Review
 // @Param Authorization header string true "Authorization. How to input in swagger : 'Bearer <insert_your_token_here>'"
 // @Security BearerToken
@@ -122,7 +146,7 @@ func UpdateReview(c *gin.Context) {
 
 
 // DeleteReview godoc
-// @Summary Delete one Order Product.
+// @Summary Delete one Order Product. (must login)
 // @Description Delete a Review by id.
 // @Tags Review
 // @Param Authorization header string true "Authorization. How to input in swagger : 'Bearer <insert_your_token_here>'"

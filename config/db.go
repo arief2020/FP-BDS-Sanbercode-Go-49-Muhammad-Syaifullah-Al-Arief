@@ -10,6 +10,7 @@ import (
 )
 
 func ConnectDataBase() *gorm.DB {
+  // railway
   username := utils.Getenv("DATABASE_USERNAME", "root")
   password := utils.Getenv("DATABASE_PASSWORD", "cPdgaPiX1XFg80YEaG39")
   host := utils.Getenv("DATABASE_HOST", "containers-us-west-208.railway.app")
@@ -18,6 +19,9 @@ func ConnectDataBase() *gorm.DB {
 
   dsn := fmt.Sprintf("%v:%v@tcp(%v:%v)/%v?charset=utf8mb4&parseTime=True&loc=Local", username, password, host, port, database)
   db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+
+
+  // localhost
   // username := "root"
   // password := ""
   // host := "tcp(127.0.0.1:3306)"
