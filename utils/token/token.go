@@ -1,7 +1,7 @@
 package token
 
 import (
-	"belajarGin/utils"
+	"final-project/utils"
 	"fmt"
 	"strconv"
 	"strings"
@@ -13,7 +13,7 @@ import (
 
 var API_SECRET = utils.Getenv("API_SECRET", "rahasiasekali")
 
-func GenerateToken(user_id uint) (string, error) {
+func GenerateToken(role string) (string, error) {
     token_lifespan, err := strconv.Atoi(utils.Getenv("TOKEN_HOUR_LIFESPAN", "1"))
 
     if err != nil {
@@ -22,7 +22,7 @@ func GenerateToken(user_id uint) (string, error) {
 
     claims := jwt.MapClaims{}
     claims["authorized"] = true
-    claims["user_id"] = user_id
+    claims["role"] = role
     claims["exp"] = time.Now().Add(time.Hour * time.Duration(token_lifespan)).Unix()
     token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
@@ -32,12 +32,14 @@ func GenerateToken(user_id uint) (string, error) {
 
 func TokenValid(c *gin.Context) error {
     tokenString := ExtractToken(c)
-    _, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+    value, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
         if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
             return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
         }
         return []byte(API_SECRET), nil
     })
+
+    fmt.Println(value.Claims)
     if err != nil {
         return err
     }
@@ -77,4 +79,26 @@ func ExtractTokenID(c *gin.Context) (uint, error) {
         return uint(uid), nil
     }
     return 0, nil
+}
+func TokenAdmin(c *gin.Context) (string, error) {
+
+    tokenString := ExtractToken(c)
+    token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+        if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+            return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
+        }
+        return []byte(API_SECRET), nil
+    })
+    if err != nil {
+        return "", err
+    }
+    claims, ok := token.Claims.(jwt.MapClaims)
+    if ok && token.Valid {
+        role := claims["role"].(string)
+        if err != nil {
+            return "", err
+        }
+        return role, nil
+    }
+    return "", nil
 }

@@ -1,7 +1,7 @@
-package controllers
+package controller
 
 import (
-	"belajarGin/models"
+	"final-project/models"
 	"fmt"
 	"net/http"
 
@@ -12,11 +12,13 @@ import (
 type LoginInput struct {
     Username string `json:"username" binding:"required"`
     Password string `json:"password" binding:"required"`
+    Role     string `json:"role" binding:"required"`
 }
 
 type RegisterInput struct {
     Username string `json:"username" binding:"required"`
     Password string `json:"password" binding:"required"`
+    Role     string     `json:"role" binding:"required"`
     Email    string `json:"email" binding:"required"`
 }
 
@@ -41,6 +43,7 @@ func Login(c *gin.Context) {
 
     u.Username = input.Username
     u.Password = input.Password
+    u.Role = input.Role
 
     token, err := models.LoginCheck(u.Username, u.Password, db)
 
@@ -56,7 +59,6 @@ func Login(c *gin.Context) {
     }
 
     c.JSON(http.StatusOK, gin.H{"message": "login success", "user": user, "token": token})
-
 }
 
 // Register godoc
@@ -80,6 +82,7 @@ func Register(c *gin.Context) {
 
     u.Username = input.Username
     u.Email = input.Email
+    u.Role = input.Role
     u.Password = input.Password
 
     _, err := u.SaveUser(db)
@@ -92,6 +95,7 @@ func Register(c *gin.Context) {
     user := map[string]string{
         "username": input.Username,
         "email":    input.Email,
+        "role":    input.Role,
     }
 
     c.JSON(http.StatusOK, gin.H{"message": "registration success", "user": user})

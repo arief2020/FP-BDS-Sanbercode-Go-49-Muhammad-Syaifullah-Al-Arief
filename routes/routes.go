@@ -1,8 +1,8 @@
 package routes
 
 import (
-	"belajarGin/controllers"
-	middlewares "belajarGin/middleware"
+	"final-project/controller"
+	"final-project/middlewares"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -19,27 +19,54 @@ func SetupRouter(db *gorm.DB) *gin.Engine {
         c.Set("db", db)
     })
 
-    r.POST("/register", controllers.Register)
-    r.POST("/login", controllers.Login)
+    r.POST("/register", controller.Register)
+    r.POST("/login", controller.Login)
 
-    r.GET("/movies", controllers.GetAllMovie)
-    r.GET("/:id", controllers.GetMovieById)
+    r.GET("/product", controller.GetAllProduct)
+    r.GET("/product/:id", controller.GetProductById)
 
-    moviesMiddlewareRoute := r.Group("/movies")
-    moviesMiddlewareRoute.Use(middlewares.JwtAuthMiddleware())
-    moviesMiddlewareRoute.POST("/", controllers.CreateMovie)
-    moviesMiddlewareRoute.PATCH("/:id", controllers.UpdateMovie)
-    moviesMiddlewareRoute.DELETE("/:id", controllers.DeleteMovie)
+    productMiddlewareRoute := r.Group("/product")
+    productMiddlewareRoute.Use(middlewares.JwtAdminMiddleware())
+    productMiddlewareRoute.POST("/", controller.CreateProduct)
+    productMiddlewareRoute.PATCH("/:id", controller.UpdateProduct)
+    productMiddlewareRoute.DELETE("/:id", controller.DeleteProduct)
 
-    r.GET("/age-rating-categories", controllers.GetAllRating)
-    r.GET("/age-rating-categories/:id", controllers.GetRatingById)
-    r.GET("/age-rating-categories/:id/movies", controllers.GetMoviesByRatingId)
-
-    ratingMiddlewareRoute := r.Group("/age-rating-categories")
+    r.GET("/categories", controller.GetAllCategory)
+    r.GET("/categories/:id", controller.GetCategoryByID)
+    r.GET("/categories/:id/product", controller.GetProductByCategoryId)
+    
+    ratingMiddlewareRoute := r.Group("/categories")
     ratingMiddlewareRoute.Use(middlewares.JwtAuthMiddleware())
-    ratingMiddlewareRoute.POST("/", controllers.CreateRating)
-    ratingMiddlewareRoute.PATCH("/:id", controllers.UpdateRating)
-    ratingMiddlewareRoute.DELETE("/:id", controllers.DeleteRating)
+    ratingMiddlewareRoute.POST("/", controller.CreateCategory)
+    ratingMiddlewareRoute.PATCH("/:id", controller.UpdateCategory)
+    ratingMiddlewareRoute.DELETE("/:id", controller.DeleteCategory)
+    
+    r.GET("/order", controller.GetAllOrder)
+    r.GET("/order/:id", controller.GetOrderByID)
+
+    orderMiddlewareRoute := r.Group("/order")
+    orderMiddlewareRoute.Use(middlewares.JwtAuthMiddleware())
+    orderMiddlewareRoute.POST("/", controller.CreateOrder)
+    orderMiddlewareRoute.PATCH("/:id", controller.UpdateOrder)
+    orderMiddlewareRoute.DELETE("/:id", controller.DeleteOrder)
+
+    r.GET("/order-item", controller.GetAllOrderItem)
+    r.GET("/order-item/:id", controller.GetOrderItemById)
+
+    orderItemMiddlewareRoute := r.Group("/order-item")
+    orderItemMiddlewareRoute.Use(middlewares.JwtAuthMiddleware())
+    orderItemMiddlewareRoute.POST("/", controller.CreateOrderItem)
+    orderItemMiddlewareRoute.PATCH("/:id", controller.UpdateOrderItem)
+    orderItemMiddlewareRoute.DELETE("/:id", controller.DeleteOrderItem)
+    
+    r.GET("/review", controller.GetAllReview)
+    r.GET("/review/:id", controller.GetReviewById)
+
+    reviewMiddlewareRoute := r.Group("/review")
+    reviewMiddlewareRoute.Use(middlewares.JwtAuthMiddleware())
+    reviewMiddlewareRoute.POST("/", controller.CreateReview)
+    reviewMiddlewareRoute.PATCH("/:id", controller.UpdateReview)
+    reviewMiddlewareRoute.DELETE("/:id", controller.DeleteReview)
 
 
     r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))

@@ -24,23 +24,23 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/age-rating-categories": {
+        "/categories": {
             "get": {
-                "description": "Get a list of AgeRatingCategory.",
+                "description": "Get a list of Category of Product.",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "AgeRatingCategory"
+                    "Category"
                 ],
-                "summary": "Get all AgeRatingCategory.",
+                "summary": "Get all Category.",
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/models.AgeRatingCategory"
+                                "$ref": "#/definitions/models.Category"
                             }
                         }
                     }
@@ -52,56 +52,56 @@ const docTemplate = `{
                         "BearerToken": []
                     }
                 ],
-                "description": "Creating a new AgeRatingCategory.",
+                "description": "Creating a new category of product.",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "AgeRatingCategory"
+                    "Category"
                 ],
-                "summary": "Create New AgeRatingCategory.",
+                "summary": "Create New Category.",
                 "parameters": [
+                    {
+                        "description": "the body to create a new Category",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/controller.CategoryInput"
+                        }
+                    },
                     {
                         "type": "string",
                         "description": "Authorization. How to input in swagger : 'Bearer \u003cinsert_your_token_here\u003e'",
                         "name": "Authorization",
                         "in": "header",
                         "required": true
-                    },
-                    {
-                        "description": "the body to create a new AgeRatingCategory",
-                        "name": "Body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/controllers.ageRatingCategoryInput"
-                        }
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.AgeRatingCategory"
+                            "$ref": "#/definitions/models.Category"
                         }
                     }
                 }
             }
         },
-        "/age-rating-categories/{id}": {
+        "/categories/{id}": {
             "get": {
-                "description": "Get an AgeRatingCategory by id.",
+                "description": "Get an Category by id.",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "AgeRatingCategory"
+                    "Category"
                 ],
-                "summary": "Get AgeRatingCategory.",
+                "summary": "Get Category.",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "AgeRatingCategory id",
+                        "description": "Category id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -111,7 +111,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.AgeRatingCategory"
+                            "$ref": "#/definitions/models.Category"
                         }
                     }
                 }
@@ -122,14 +122,14 @@ const docTemplate = `{
                         "BearerToken": []
                     }
                 ],
-                "description": "Delete a AgeRatingCategory by id.",
+                "description": "Delete a Category by id.",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "AgeRatingCategory"
+                    "Category"
                 ],
-                "summary": "Delete one AgeRatingCategory.",
+                "summary": "Delete one Category.",
                 "parameters": [
                     {
                         "type": "string",
@@ -140,7 +140,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "AgeRatingCategory id",
+                        "description": "Category id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -164,14 +164,14 @@ const docTemplate = `{
                         "BearerToken": []
                     }
                 ],
-                "description": "Update AgeRatingCategory by id.",
+                "description": "Update Category by id.",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "AgeRatingCategory"
+                    "Category"
                 ],
-                "summary": "Update AgeRatingCategory.",
+                "summary": "Update Category.",
                 "parameters": [
                     {
                         "type": "string",
@@ -182,7 +182,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "AgeRatingCategory id",
+                        "description": "Category id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -193,7 +193,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/controllers.ageRatingCategoryInput"
+                            "$ref": "#/definitions/controller.CategoryInput"
                         }
                     }
                 ],
@@ -201,26 +201,26 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.AgeRatingCategory"
+                            "$ref": "#/definitions/models.Category"
                         }
                     }
                 }
             }
         },
-        "/age-rating-categories/{id}/movies": {
+        "/categories/{id}/products": {
             "get": {
-                "description": "Get all Movies by AgeRatingCategoryId.",
+                "description": "Get all Products by CategoryId.",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "AgeRatingCategory"
+                    "Category"
                 ],
-                "summary": "Get Movies.",
+                "summary": "Get Products.",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "AgeRatingCategory id",
+                        "description": "Category id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -232,7 +232,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/models.Movie"
+                                "$ref": "#/definitions/models.Product"
                             }
                         }
                     }
@@ -256,7 +256,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/controllers.LoginInput"
+                            "$ref": "#/definitions/controller.LoginInput"
                         }
                     }
                 ],
@@ -271,21 +271,176 @@ const docTemplate = `{
                 }
             }
         },
-        "/movie/{id}": {
+        "/order": {
+            "get": {
+                "description": "Get a list of Order User.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Order"
+                ],
+                "summary": "Get all Order.",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Order"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerToken": []
+                    }
+                ],
+                "description": "Creating a new Order User.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Order"
+                ],
+                "summary": "Create New Order.",
+                "parameters": [
+                    {
+                        "description": "the body to create a new Order",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/controller.OrderInput"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "Authorization. How to input in swagger : 'Bearer \u003cinsert_your_token_here\u003e'",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Order"
+                        }
+                    }
+                }
+            }
+        },
+        "/order-item": {
+            "get": {
+                "description": "Get a list of Order Product.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "OrderItem"
+                ],
+                "summary": "Get all Order Product.",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.OrderItem"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerToken": []
+                    }
+                ],
+                "description": "Creating a new Order Product.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "OrderItem"
+                ],
+                "summary": "Create New Order Product.",
+                "parameters": [
+                    {
+                        "description": "the body to create a new Order",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/controller.OrderItemInput"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "Authorization. How to input in swagger : 'Bearer \u003cinsert_your_token_here\u003e'",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.OrderItem"
+                        }
+                    }
+                }
+            }
+        },
+        "/order-item/{id}": {
+            "get": {
+                "description": "Get an Order Product by id.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "OrderItem"
+                ],
+                "summary": "Get Order Product.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "OrderItem id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.OrderItem"
+                        }
+                    }
+                }
+            },
             "delete": {
                 "security": [
                     {
                         "BearerToken": []
                     }
                 ],
-                "description": "Delete a movie by id.",
+                "description": "Delete a OrderItem by id.",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "Movie"
+                    "OrderItem"
                 ],
-                "summary": "Delete one movie.",
+                "summary": "Delete one Order Product.",
                 "parameters": [
                     {
                         "type": "string",
@@ -296,7 +451,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "movie id",
+                        "description": "OrderItem id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -313,25 +468,192 @@ const docTemplate = `{
                         }
                     }
                 }
-            }
-        },
-        "/movies": {
-            "get": {
-                "description": "Get a list of Movies.",
+            },
+            "patch": {
+                "security": [
+                    {
+                        "BearerToken": []
+                    }
+                ],
+                "description": "Update Order Product.",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "Movie"
+                    "OrderItem"
                 ],
-                "summary": "Get all movies.",
+                "summary": "Update Order Product.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authorization. How to input in swagger : 'Bearer \u003cinsert_your_token_here\u003e'",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "OrderItem id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "the body to update orderItem",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/controller.OrderItemInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.OrderItem"
+                        }
+                    }
+                }
+            }
+        },
+        "/order/{id}": {
+            "get": {
+                "description": "Get an Order by id.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Order"
+                ],
+                "summary": "Get Order.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Order id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Order"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerToken": []
+                    }
+                ],
+                "description": "Delete a Order by id.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Order"
+                ],
+                "summary": "Delete one Order.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authorization. How to input in swagger : 'Bearer \u003cinsert_your_token_here\u003e'",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Order id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "boolean"
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "security": [
+                    {
+                        "BearerToken": []
+                    }
+                ],
+                "description": "Update Order user.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Order"
+                ],
+                "summary": "Update Order.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authorization. How to input in swagger : 'Bearer \u003cinsert_your_token_here\u003e'",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Order id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "the body to update order",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/controller.OrderInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Order"
+                        }
+                    }
+                }
+            }
+        },
+        "/product": {
+            "get": {
+                "description": "Get a list of Product.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Product"
+                ],
+                "summary": "Get all product.",
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/models.Movie"
+                                "$ref": "#/definitions/models.Product"
                             }
                         }
                     }
@@ -343,22 +665,22 @@ const docTemplate = `{
                         "BearerToken": []
                     }
                 ],
-                "description": "Creating a new Movie.",
+                "description": "Creating a new Product.",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "Movie"
+                    "Product"
                 ],
-                "summary": "Create New Movie.",
+                "summary": "Create New Product.",
                 "parameters": [
                     {
-                        "description": "the body to create a new movie",
+                        "description": "the body to create a new product",
                         "name": "Body",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/controllers.movieInput"
+                            "$ref": "#/definitions/controller.productInput"
                         }
                     },
                     {
@@ -373,26 +695,26 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.Movie"
+                            "$ref": "#/definitions/models.Product"
                         }
                     }
                 }
             }
         },
-        "/movies/{id}": {
+        "/product/{id}": {
             "get": {
-                "description": "Get a Movie by id.",
+                "description": "Get a Product by id.",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "Movie"
+                    "Product"
                 ],
-                "summary": "Get Movie.",
+                "summary": "Get Product.",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "movie id",
+                        "description": "product id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -402,7 +724,49 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.Movie"
+                            "$ref": "#/definitions/models.Product"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerToken": []
+                    }
+                ],
+                "description": "Delete a product by id.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Product"
+                ],
+                "summary": "Delete one product.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authorization. How to input in swagger : 'Bearer \u003cinsert_your_token_here\u003e'",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "product id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "boolean"
+                            }
                         }
                     }
                 }
@@ -413,14 +777,14 @@ const docTemplate = `{
                         "BearerToken": []
                     }
                 ],
-                "description": "Update movie by id.",
+                "description": "Update product by id.",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "Movie"
+                    "Product"
                 ],
-                "summary": "Update Movie.",
+                "summary": "Update Product.",
                 "parameters": [
                     {
                         "type": "string",
@@ -431,18 +795,18 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "movie id",
+                        "description": "product id",
                         "name": "id",
                         "in": "path",
                         "required": true
                     },
                     {
-                        "description": "the body to update an movie",
+                        "description": "the body to update an product",
                         "name": "Body",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/controllers.movieInput"
+                            "$ref": "#/definitions/controller.productInput"
                         }
                     }
                 ],
@@ -450,7 +814,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.Movie"
+                            "$ref": "#/definitions/models.Product"
                         }
                     }
                 }
@@ -473,7 +837,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/controllers.RegisterInput"
+                            "$ref": "#/definitions/controller.RegisterInput"
                         }
                     }
                 ],
@@ -487,17 +851,212 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/review": {
+            "get": {
+                "description": "Get a list of Review.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Review"
+                ],
+                "summary": "Get all Review.",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.ReviewProduct"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerToken": []
+                    }
+                ],
+                "description": "Creating a new Review.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Review"
+                ],
+                "summary": "Create New Review.",
+                "parameters": [
+                    {
+                        "description": "the body to create a new Review",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/controller.ReviewInput"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "Authorization. How to input in swagger : 'Bearer \u003cinsert_your_token_here\u003e'",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.ReviewProduct"
+                        }
+                    }
+                }
+            }
+        },
+        "/review/{id}": {
+            "get": {
+                "description": "Get a Review by id.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Review"
+                ],
+                "summary": "Get Review.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Review id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.ReviewProduct"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerToken": []
+                    }
+                ],
+                "description": "Delete a Review by id.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Review"
+                ],
+                "summary": "Delete one Order Product.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authorization. How to input in swagger : 'Bearer \u003cinsert_your_token_here\u003e'",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Review id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "boolean"
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "security": [
+                    {
+                        "BearerToken": []
+                    }
+                ],
+                "description": "Update Review.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Review"
+                ],
+                "summary": "Update Review.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authorization. How to input in swagger : 'Bearer \u003cinsert_your_token_here\u003e'",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Review id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "the body to update review",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/controller.ReviewInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.ReviewProduct"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
-        "controllers.LoginInput": {
+        "controller.CategoryInput": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "controller.LoginInput": {
             "type": "object",
             "required": [
                 "password",
+                "role",
                 "username"
             ],
             "properties": {
                 "password": {
+                    "type": "string"
+                },
+                "role": {
                     "type": "string"
                 },
                 "username": {
@@ -505,11 +1064,43 @@ const docTemplate = `{
                 }
             }
         },
-        "controllers.RegisterInput": {
+        "controller.OrderInput": {
+            "type": "object",
+            "properties": {
+                "status": {
+                    "type": "string"
+                },
+                "total_price": {
+                    "type": "integer"
+                },
+                "user_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "controller.OrderItemInput": {
+            "type": "object",
+            "properties": {
+                "order_id": {
+                    "type": "integer"
+                },
+                "product_id": {
+                    "type": "integer"
+                },
+                "quantity": {
+                    "type": "integer"
+                },
+                "sub_total": {
+                    "type": "integer"
+                }
+            }
+        },
+        "controller.RegisterInput": {
             "type": "object",
             "required": [
                 "email",
                 "password",
+                "role",
                 "username"
             ],
             "properties": {
@@ -519,43 +1110,55 @@ const docTemplate = `{
                 "password": {
                     "type": "string"
                 },
+                "role": {
+                    "type": "string"
+                },
                 "username": {
                     "type": "string"
                 }
             }
         },
-        "controllers.ageRatingCategoryInput": {
+        "controller.ReviewInput": {
             "type": "object",
             "properties": {
+                "Comment": {
+                    "type": "string"
+                },
+                "Rating": {
+                    "type": "integer"
+                },
+                "products_id": {
+                    "type": "integer"
+                },
+                "user_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "controller.productInput": {
+            "type": "object",
+            "properties": {
+                "category_id": {
+                    "type": "integer"
+                },
                 "description": {
                     "type": "string"
                 },
                 "name": {
                     "type": "string"
-                }
-            }
-        },
-        "controllers.movieInput": {
-            "type": "object",
-            "properties": {
-                "age_rating_category_id": {
+                },
+                "price": {
                     "type": "integer"
                 },
-                "title": {
-                    "type": "string"
-                },
-                "year": {
+                "stock": {
                     "type": "integer"
                 }
             }
         },
-        "models.AgeRatingCategory": {
+        "models.Category": {
             "type": "object",
             "properties": {
                 "created_at": {
-                    "type": "string"
-                },
-                "description": {
                     "type": "string"
                 },
                 "id": {
@@ -569,11 +1172,89 @@ const docTemplate = `{
                 }
             }
         },
-        "models.Movie": {
+        "models.Order": {
             "type": "object",
             "properties": {
-                "ageRatingCategoryID": {
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
                     "type": "integer"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "total_price": {
+                    "type": "integer"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "models.OrderItem": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "order_id": {
+                    "type": "integer"
+                },
+                "product_id": {
+                    "type": "integer"
+                },
+                "quantity": {
+                    "type": "integer"
+                },
+                "sub_total": {
+                    "type": "integer"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Product": {
+            "type": "object",
+            "properties": {
+                "category_id": {
+                    "type": "integer"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "integer"
+                },
+                "stock": {
+                    "type": "integer"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.ReviewProduct": {
+            "type": "object",
+            "properties": {
+                "comment": {
+                    "type": "string"
                 },
                 "created_at": {
                     "type": "string"
@@ -581,13 +1262,16 @@ const docTemplate = `{
                 "id": {
                     "type": "integer"
                 },
-                "title": {
-                    "type": "string"
+                "product_id": {
+                    "type": "integer"
+                },
+                "rating": {
+                    "type": "integer"
                 },
                 "updated_at": {
                     "type": "string"
                 },
-                "year": {
+                "user_id": {
                     "type": "integer"
                 }
             }

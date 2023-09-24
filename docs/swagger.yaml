@@ -1,48 +1,85 @@
 definitions:
-  controllers.LoginInput:
+  controller.CategoryInput:
+    properties:
+      name:
+        type: string
+    type: object
+  controller.LoginInput:
     properties:
       password:
+        type: string
+      role:
         type: string
       username:
         type: string
     required:
     - password
+    - role
     - username
     type: object
-  controllers.RegisterInput:
+  controller.OrderInput:
+    properties:
+      status:
+        type: string
+      total_price:
+        type: integer
+      user_id:
+        type: integer
+    type: object
+  controller.OrderItemInput:
+    properties:
+      order_id:
+        type: integer
+      product_id:
+        type: integer
+      quantity:
+        type: integer
+      sub_total:
+        type: integer
+    type: object
+  controller.RegisterInput:
     properties:
       email:
         type: string
       password:
+        type: string
+      role:
         type: string
       username:
         type: string
     required:
     - email
     - password
+    - role
     - username
     type: object
-  controllers.ageRatingCategoryInput:
+  controller.ReviewInput:
     properties:
+      Comment:
+        type: string
+      Rating:
+        type: integer
+      products_id:
+        type: integer
+      user_id:
+        type: integer
+    type: object
+  controller.productInput:
+    properties:
+      category_id:
+        type: integer
       description:
         type: string
       name:
         type: string
-    type: object
-  controllers.movieInput:
-    properties:
-      age_rating_category_id:
+      price:
         type: integer
-      title:
-        type: string
-      year:
+      stock:
         type: integer
     type: object
-  models.AgeRatingCategory:
+  models.Category:
     properties:
       created_at:
-        type: string
-      description:
         type: string
       id:
         type: integer
@@ -51,19 +88,72 @@ definitions:
       updated_at:
         type: string
     type: object
-  models.Movie:
+  models.Order:
     properties:
-      ageRatingCategoryID:
-        type: integer
       created_at:
         type: string
       id:
         type: integer
-      title:
+      status:
         type: string
+      total_price:
+        type: integer
       updated_at:
         type: string
-      year:
+      user_id:
+        type: integer
+    type: object
+  models.OrderItem:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: integer
+      order_id:
+        type: integer
+      product_id:
+        type: integer
+      quantity:
+        type: integer
+      sub_total:
+        type: integer
+      updated_at:
+        type: string
+    type: object
+  models.Product:
+    properties:
+      category_id:
+        type: integer
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      price:
+        type: integer
+      stock:
+        type: integer
+      updated_at:
+        type: string
+    type: object
+  models.ReviewProduct:
+    properties:
+      comment:
+        type: string
+      created_at:
+        type: string
+      id:
+        type: integer
+      product_id:
+        type: integer
+      rating:
+        type: integer
+      updated_at:
+        type: string
+      user_id:
         type: integer
     type: object
 info:
@@ -76,9 +166,9 @@ info:
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   termsOfService: http://swagger.io/terms/
 paths:
-  /age-rating-categories:
+  /categories:
     get:
-      description: Get a list of AgeRatingCategory.
+      description: Get a list of Category of Product.
       produces:
       - application/json
       responses:
@@ -86,47 +176,47 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/models.AgeRatingCategory'
+              $ref: '#/definitions/models.Category'
             type: array
-      summary: Get all AgeRatingCategory.
+      summary: Get all Category.
       tags:
-      - AgeRatingCategory
+      - Category
     post:
-      description: Creating a new AgeRatingCategory.
+      description: Creating a new category of product.
       parameters:
+      - description: the body to create a new Category
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/controller.CategoryInput'
       - description: 'Authorization. How to input in swagger : ''Bearer <insert_your_token_here>'''
         in: header
         name: Authorization
         required: true
         type: string
-      - description: the body to create a new AgeRatingCategory
-        in: body
-        name: Body
-        required: true
-        schema:
-          $ref: '#/definitions/controllers.ageRatingCategoryInput'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.AgeRatingCategory'
+            $ref: '#/definitions/models.Category'
       security:
       - BearerToken: []
-      summary: Create New AgeRatingCategory.
+      summary: Create New Category.
       tags:
-      - AgeRatingCategory
-  /age-rating-categories/{id}:
+      - Category
+  /categories/{id}:
     delete:
-      description: Delete a AgeRatingCategory by id.
+      description: Delete a Category by id.
       parameters:
       - description: 'Authorization. How to input in swagger : ''Bearer <insert_your_token_here>'''
         in: header
         name: Authorization
         required: true
         type: string
-      - description: AgeRatingCategory id
+      - description: Category id
         in: path
         name: id
         required: true
@@ -142,13 +232,13 @@ paths:
             type: object
       security:
       - BearerToken: []
-      summary: Delete one AgeRatingCategory.
+      summary: Delete one Category.
       tags:
-      - AgeRatingCategory
+      - Category
     get:
-      description: Get an AgeRatingCategory by id.
+      description: Get an Category by id.
       parameters:
-      - description: AgeRatingCategory id
+      - description: Category id
         in: path
         name: id
         required: true
@@ -159,19 +249,19 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.AgeRatingCategory'
-      summary: Get AgeRatingCategory.
+            $ref: '#/definitions/models.Category'
+      summary: Get Category.
       tags:
-      - AgeRatingCategory
+      - Category
     patch:
-      description: Update AgeRatingCategory by id.
+      description: Update Category by id.
       parameters:
       - description: 'Authorization. How to input in swagger : ''Bearer <insert_your_token_here>'''
         in: header
         name: Authorization
         required: true
         type: string
-      - description: AgeRatingCategory id
+      - description: Category id
         in: path
         name: id
         required: true
@@ -181,24 +271,24 @@ paths:
         name: Body
         required: true
         schema:
-          $ref: '#/definitions/controllers.ageRatingCategoryInput'
+          $ref: '#/definitions/controller.CategoryInput'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.AgeRatingCategory'
+            $ref: '#/definitions/models.Category'
       security:
       - BearerToken: []
-      summary: Update AgeRatingCategory.
+      summary: Update Category.
       tags:
-      - AgeRatingCategory
-  /age-rating-categories/{id}/movies:
+      - Category
+  /categories/{id}/products:
     get:
-      description: Get all Movies by AgeRatingCategoryId.
+      description: Get all Products by CategoryId.
       parameters:
-      - description: AgeRatingCategory id
+      - description: Category id
         in: path
         name: id
         required: true
@@ -210,11 +300,11 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/models.Movie'
+              $ref: '#/definitions/models.Product'
             type: array
-      summary: Get Movies.
+      summary: Get Products.
       tags:
-      - AgeRatingCategory
+      - Category
   /login:
     post:
       description: Logging in to get jwt token to access admin or user api by roles.
@@ -224,7 +314,7 @@ paths:
         name: Body
         required: true
         schema:
-          $ref: '#/definitions/controllers.LoginInput'
+          $ref: '#/definitions/controller.LoginInput'
       produces:
       - application/json
       responses:
@@ -236,16 +326,98 @@ paths:
       summary: Login as as user.
       tags:
       - Auth
-  /movie/{id}:
+  /order:
+    get:
+      description: Get a list of Order User.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Order'
+            type: array
+      summary: Get all Order.
+      tags:
+      - Order
+    post:
+      description: Creating a new Order User.
+      parameters:
+      - description: the body to create a new Order
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/controller.OrderInput'
+      - description: 'Authorization. How to input in swagger : ''Bearer <insert_your_token_here>'''
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Order'
+      security:
+      - BearerToken: []
+      summary: Create New Order.
+      tags:
+      - Order
+  /order-item:
+    get:
+      description: Get a list of Order Product.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.OrderItem'
+            type: array
+      summary: Get all Order Product.
+      tags:
+      - OrderItem
+    post:
+      description: Creating a new Order Product.
+      parameters:
+      - description: the body to create a new Order
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/controller.OrderItemInput'
+      - description: 'Authorization. How to input in swagger : ''Bearer <insert_your_token_here>'''
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.OrderItem'
+      security:
+      - BearerToken: []
+      summary: Create New Order Product.
+      tags:
+      - OrderItem
+  /order-item/{id}:
     delete:
-      description: Delete a movie by id.
+      description: Delete a OrderItem by id.
       parameters:
       - description: 'Authorization. How to input in swagger : ''Bearer <insert_your_token_here>'''
         in: header
         name: Authorization
         required: true
         type: string
-      - description: movie id
+      - description: OrderItem id
         in: path
         name: id
         required: true
@@ -261,12 +433,138 @@ paths:
             type: object
       security:
       - BearerToken: []
-      summary: Delete one movie.
+      summary: Delete one Order Product.
       tags:
-      - Movie
-  /movies:
+      - OrderItem
     get:
-      description: Get a list of Movies.
+      description: Get an Order Product by id.
+      parameters:
+      - description: OrderItem id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.OrderItem'
+      summary: Get Order Product.
+      tags:
+      - OrderItem
+    patch:
+      description: Update Order Product.
+      parameters:
+      - description: 'Authorization. How to input in swagger : ''Bearer <insert_your_token_here>'''
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: OrderItem id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: the body to update orderItem
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/controller.OrderItemInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.OrderItem'
+      security:
+      - BearerToken: []
+      summary: Update Order Product.
+      tags:
+      - OrderItem
+  /order/{id}:
+    delete:
+      description: Delete a Order by id.
+      parameters:
+      - description: 'Authorization. How to input in swagger : ''Bearer <insert_your_token_here>'''
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Order id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: boolean
+            type: object
+      security:
+      - BearerToken: []
+      summary: Delete one Order.
+      tags:
+      - Order
+    get:
+      description: Get an Order by id.
+      parameters:
+      - description: Order id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Order'
+      summary: Get Order.
+      tags:
+      - Order
+    patch:
+      description: Update Order user.
+      parameters:
+      - description: 'Authorization. How to input in swagger : ''Bearer <insert_your_token_here>'''
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Order id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: the body to update order
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/controller.OrderInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Order'
+      security:
+      - BearerToken: []
+      summary: Update Order.
+      tags:
+      - Order
+  /product:
+    get:
+      description: Get a list of Product.
       produces:
       - application/json
       responses:
@@ -274,20 +572,20 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/models.Movie'
+              $ref: '#/definitions/models.Product'
             type: array
-      summary: Get all movies.
+      summary: Get all product.
       tags:
-      - Movie
+      - Product
     post:
-      description: Creating a new Movie.
+      description: Creating a new Product.
       parameters:
-      - description: the body to create a new movie
+      - description: the body to create a new product
         in: body
         name: Body
         required: true
         schema:
-          $ref: '#/definitions/controllers.movieInput'
+          $ref: '#/definitions/controller.productInput'
       - description: 'Authorization. How to input in swagger : ''Bearer <insert_your_token_here>'''
         in: header
         name: Authorization
@@ -299,17 +597,44 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.Movie'
+            $ref: '#/definitions/models.Product'
       security:
       - BearerToken: []
-      summary: Create New Movie.
+      summary: Create New Product.
       tags:
-      - Movie
-  /movies/{id}:
+      - Product
+  /product/{id}:
+    delete:
+      description: Delete a product by id.
+      parameters:
+      - description: 'Authorization. How to input in swagger : ''Bearer <insert_your_token_here>'''
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: product id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: boolean
+            type: object
+      security:
+      - BearerToken: []
+      summary: Delete one product.
+      tags:
+      - Product
     get:
-      description: Get a Movie by id.
+      description: Get a Product by id.
       parameters:
-      - description: movie id
+      - description: product id
         in: path
         name: id
         required: true
@@ -320,41 +645,41 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.Movie'
-      summary: Get Movie.
+            $ref: '#/definitions/models.Product'
+      summary: Get Product.
       tags:
-      - Movie
+      - Product
     patch:
-      description: Update movie by id.
+      description: Update product by id.
       parameters:
       - description: 'Authorization. How to input in swagger : ''Bearer <insert_your_token_here>'''
         in: header
         name: Authorization
         required: true
         type: string
-      - description: movie id
+      - description: product id
         in: path
         name: id
         required: true
         type: string
-      - description: the body to update an movie
+      - description: the body to update an product
         in: body
         name: Body
         required: true
         schema:
-          $ref: '#/definitions/controllers.movieInput'
+          $ref: '#/definitions/controller.productInput'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.Movie'
+            $ref: '#/definitions/models.Product'
       security:
       - BearerToken: []
-      summary: Update Movie.
+      summary: Update Product.
       tags:
-      - Movie
+      - Product
   /register:
     post:
       description: registering a user from public access.
@@ -364,7 +689,7 @@ paths:
         name: Body
         required: true
         schema:
-          $ref: '#/definitions/controllers.RegisterInput'
+          $ref: '#/definitions/controller.RegisterInput'
       produces:
       - application/json
       responses:
@@ -376,4 +701,122 @@ paths:
       summary: Register a user.
       tags:
       - Auth
+  /review:
+    get:
+      description: Get a list of Review.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.ReviewProduct'
+            type: array
+      summary: Get all Review.
+      tags:
+      - Review
+    post:
+      description: Creating a new Review.
+      parameters:
+      - description: the body to create a new Review
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/controller.ReviewInput'
+      - description: 'Authorization. How to input in swagger : ''Bearer <insert_your_token_here>'''
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ReviewProduct'
+      security:
+      - BearerToken: []
+      summary: Create New Review.
+      tags:
+      - Review
+  /review/{id}:
+    delete:
+      description: Delete a Review by id.
+      parameters:
+      - description: 'Authorization. How to input in swagger : ''Bearer <insert_your_token_here>'''
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Review id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: boolean
+            type: object
+      security:
+      - BearerToken: []
+      summary: Delete one Order Product.
+      tags:
+      - Review
+    get:
+      description: Get a Review by id.
+      parameters:
+      - description: Review id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ReviewProduct'
+      summary: Get Review.
+      tags:
+      - Review
+    patch:
+      description: Update Review.
+      parameters:
+      - description: 'Authorization. How to input in swagger : ''Bearer <insert_your_token_here>'''
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Review id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: the body to update review
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/controller.ReviewInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ReviewProduct'
+      security:
+      - BearerToken: []
+      summary: Update Review.
+      tags:
+      - Review
 swagger: "2.0"

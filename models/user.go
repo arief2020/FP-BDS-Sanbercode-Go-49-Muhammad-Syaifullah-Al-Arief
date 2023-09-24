@@ -1,7 +1,7 @@
 package models
 
 import (
-	"belajarGin/utils/token"
+	"final-project/utils/token"
 	"html"
 	"strings"
 	"time"
@@ -11,15 +11,18 @@ import (
 )
 
 type (
-    // User
-    User struct {
-        ID        uint      `json:"id" gorm:"primary_key"`
-        Username  string    `gorm:"not null;unique" json:"username"`
-        Email     string    `gorm:"not null;unique" json:"email"`
-        Password  string    `gorm:"not null;" json:"password"`
-        CreatedAt time.Time `json:"created_at"`
-        UpdatedAt time.Time `json:"updated_at"`
-    }
+	// User
+	User struct {
+		ID              uint               `json:"id" gorm:"primary_key"`
+		Username        string             `gorm:"not null;unique" json:"username"`
+		Email           string             `gorm:"not null;unique" json:"email"`
+		Password        string             `gorm:"not null;" json:"password"`
+		Role            string             `gorm:"not null;" json:"role"`
+		CreatedAt       time.Time          `json:"created_at"`
+		UpdatedAt       time.Time          `json:"updated_at"`
+        Order           []Order            `json:"-"`
+        ReviewProduct   []ReviewProduct    `json:"-"`
+	}
 )
 
 func VerifyPassword(password, hashedPassword string) error {
@@ -44,7 +47,7 @@ func LoginCheck(username string, password string, db *gorm.DB) (string, error) {
         return "", err
     }
 
-    token, err := token.GenerateToken(u.ID)
+    token, err := token.GenerateToken(u.Role)
 
     if err != nil {
         return "", err
