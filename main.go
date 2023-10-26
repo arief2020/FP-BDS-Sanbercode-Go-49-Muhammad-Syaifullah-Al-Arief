@@ -46,6 +46,4 @@ func main() {
     // router
     r := routes.SetupRouter(db)
     r.Run()
-
-    
 }
